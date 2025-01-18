@@ -1,16 +1,5 @@
+'use client'
 import { FaStar } from "react-icons/fa";
-//import { SendTransactionRequest, useTonConnectUI } from '@tonconnect/ui-react';
-
-/* const transaction: SendTransactionRequest = {
-   validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
-   messages: [
-     {
-       address:
-         "0QD-SuoCHsCL2pIZfE8IAKsjc0aDpDUQAoo-ALHl2mje04A-", // message destination in user-friendly format
-       amount: "20000000", // Toncoin in nanotons
-     },
-   ],
- }; */
 
 interface ItemBoxProps {
    id: number;
@@ -18,6 +7,7 @@ interface ItemBoxProps {
    price: number;
    currency: string;
    isOpen: number;
+   tonPrice: number,
    chIsOpen: (isOpen: number) => void;
 }
 
@@ -28,14 +18,16 @@ const ItemBox = ({
    currency,
    isOpen,
    chIsOpen,
+   tonPrice
 }: ItemBoxProps) => {
    const open = isOpen;
-   //const [tonConnectUI, setOptions] = useTonConnectUI();
 
    const currentColor =
       currency === "TMT" ? "green" : currency === "TON" ? "blue" : "orange";
+
    return (
       <div className="w-full">
+         
          {/*  info */}
          <div
             className="bg-white flex w-[90%] rounded-t-lg p-2 items-center justify-between mx-auto"
@@ -59,7 +51,7 @@ const ItemBox = ({
             <div className="flex items-center gap-4">
                {/* price */}
                <div className="text-lg font-semibold text-gray-600">
-                  {price}{" "}
+                  {currency === 'TON' ? (price / tonPrice).toFixed(4) : price}
                </div>
 
                {/* currency */}

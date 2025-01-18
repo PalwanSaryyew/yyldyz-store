@@ -3,7 +3,7 @@ import { useState } from "react";
 import CurrencyBox from "./CurrencyBox";
 import StoreBox from "./StoreBox";
 
-const MainBox = () => {
+const MainBox = ({tonPrice}: {tonPrice: number}) => {
    const [currency, setCurrency] = useState("TMT");
    return (
       <div
@@ -16,7 +16,7 @@ const MainBox = () => {
          }-500 mt-8 w-[90%] m-auto rounded-3xl`}
       >
          <CurrencyBox crChange={setCurrency} />
-         <StoreBox currency={currency} />
+         <StoreBox currency={currency} tonPrice={tonPrice}/>
       </div>
    );
 };

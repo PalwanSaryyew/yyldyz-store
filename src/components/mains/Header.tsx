@@ -1,8 +1,9 @@
 
 import { LuAlignRight } from "react-icons/lu";
 
-const Header = () => {
+const Header = async ({ tonPrice }: { tonPrice: number }) => {
    
+
    return (
       <header className="bg-blue-300 flex justify-between items-center px-4 py-1 rounded-b-3xl">
          {/* left */}
@@ -13,9 +14,11 @@ const Header = () => {
                </span>
             </div>
          </h1>
+         {/* mid */}
+         <div className="text-white">TON: {tonPrice.toFixed(2)}</div>
          {/* right */}
          <div className="">
-            <LuAlignRight size={45} color="white"/>
+            <LuAlignRight size={45} color="white" />
          </div>
       </header>
    );

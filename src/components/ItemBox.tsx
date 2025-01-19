@@ -1,5 +1,6 @@
-'use client'
+"use client";
 import { FaStar } from "react-icons/fa";
+import { useHandleModal } from "./store/UniStore";
 
 interface ItemBoxProps {
    id: number;
@@ -7,7 +8,7 @@ interface ItemBoxProps {
    price: number;
    currency: string;
    isOpen: number;
-   tonPrice: number,
+   tonPrice: number;
    chIsOpen: (isOpen: number) => void;
 }
 
@@ -18,16 +19,17 @@ const ItemBox = ({
    currency,
    isOpen,
    chIsOpen,
-   tonPrice
+   tonPrice,
 }: ItemBoxProps) => {
    const open = isOpen;
 
    const currentColor =
       currency === "TMT" ? "green" : currency === "TON" ? "blue" : "orange";
 
+   const modalOpener = useHandleModal((state) => state.toogle);
+
    return (
       <div className="w-full">
-         
          {/*  info */}
          <div
             className="bg-white flex w-[90%] rounded-t-lg p-2 items-center justify-between mx-auto"
@@ -51,7 +53,7 @@ const ItemBox = ({
             <div className="flex items-center gap-4">
                {/* price */}
                <div className="text-lg font-semibold text-gray-600">
-                  {currency === 'TON' ? (price / tonPrice).toFixed(4) : price}
+                  {currency === "TON" ? (price / tonPrice).toFixed(4) : price}
                </div>
 
                {/* currency */}
@@ -65,24 +67,24 @@ const ItemBox = ({
          <div
             className={`${
                open === id ? "block" : "hidden"
-            } bg-white w-[90%] rounded-b-lg p-2 items-center justify-between mx-auto`}
+            } bg-white w-[90%] rounded-b-lg p-2 items-center mx-auto`}
          >
             {/* input box */}
             <div
-               className={`bg-${currentColor}-500 mx-auto p-1 rounded-lg flex items-center`}
+               className={`bg-${currentColor}-500 mx-auto p-1 rounded-lg flex items-center justify-between`}
             >
                <div className="text-gray-100 font-semibold text-lg pr-1">@</div>
-               <div className="overflow-hidden px-1">
+               <div className="overflow-hidden px-1 flex-1">
                   <input
                      type="text"
                      name=""
                      id=""
-                     className="border-none outline-none bg-transparent text-gray-100 font-medium text-lg placeholder:text-gray-200/80 placeholder:text-base"
+                     className="border-none w-full outline-none bg-transparent text-gray-100 font-medium text-lg placeholder:text-gray-200/80 placeholder:text-base"
                      placeholder="username"
                   />
                </div>
                <button
-                  onClick={() => null}
+                  onClick={() => modalOpener()}
                   className="bg-white text-black px-4 py-2 rounded-lg ring-1 ring-blue"
                >
                   Buy

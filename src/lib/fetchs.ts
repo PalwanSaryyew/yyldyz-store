@@ -1,5 +1,5 @@
-const cmcApikey = "dd4d85ec-6fdc-4692-8de7-5937ad53a660";
-
+//const cmcApikey = "dd4d85ec-6fdc-4692-8de7-5937ad53a660";
+/* 
 export const cmcApi = async (coin: string) => {
    try {
       const response = await fetch(`https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?slug=${coin}`, {
@@ -19,3 +19,11 @@ export const cmcApi = async (coin: string) => {
       return undefined;
    }
 };
+ */
+
+import { coinData } from "./data"
+
+export const cmcApi = async (coin: string) => {
+   const data = coinData.find((item) => item.name === coin);
+   return data?.price;
+}

@@ -1,11 +1,11 @@
 "use client";
-import { useHandleModal } from "../store/UniStore";
-import { Sending } from "../ton/Sending";
-import MyTonProvider from "../ton/TonProvider";
+import Transactions from "@/ton/Transactions";
+import { useCartItem, useHandleModal } from "../store/UniStore";
 
 const ChktMdl = () => {
    const openState = useHandleModal((state) => state.isOpen);
    const modalCloser = useHandleModal((state) => state.toogle);
+   const item = useCartItem((state) => state.item);
 
    if (!openState) {
       return null;
@@ -26,25 +26,23 @@ const ChktMdl = () => {
             <div className="rounded-md overflow-hidden mx-2">
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
                   <div>Haryt</div>
-                  <div>Yyldyz</div>
+                  <div>{item.haryt}</div>
                </div>
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
                   <div>Sany</div>
-                  <div>250</div>
+                  <div>{item.sany}</div>
                </div>
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
                   <div>Kime</div>
-                  <div>Emeki</div>
+                  <div>{item.kime}</div>
                </div>
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
                   <div>Jemi toleg</div>
-                  <div>0.5</div>
+                  <div>{item.jemi}</div>
                </div>
             </div>
             <div className="bg-blue-500 mt-3 mx-1 py-2 text-white rounded-lg ring-inherit ring-2 ring-blue-400 flex items-center justify-center">
-               <MyTonProvider>
-                  <Sending />
-               </MyTonProvider>
+               <Transactions amount={item.jemi}/>
             </div>
          </div>
       </div>

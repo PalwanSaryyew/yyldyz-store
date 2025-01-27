@@ -1,9 +1,6 @@
-
 import { LuAlignRight } from "react-icons/lu";
-
-const Header = async ({ tonPrice }: { tonPrice: number }) => {
-   
-
+import Pricer from "../Pricer";
+const Header = () => {
    return (
       <header className="bg-blue-300 flex justify-between items-center px-4 py-1 rounded-b-3xl">
          {/* left */}
@@ -15,7 +12,7 @@ const Header = async ({ tonPrice }: { tonPrice: number }) => {
             </div>
          </h1>
          {/* mid */}
-         <div className="text-white">TON: {tonPrice.toFixed(2)}</div>
+         <div className="text-white">TON: <Pricer coin="TON"/></div>
          {/* right */}
          <div className="">
             <LuAlignRight size={45} color="white" />

@@ -1,6 +1,7 @@
 "use client";
 import { FaStar } from "react-icons/fa";
-import { useHandleModal } from "./store/UniStore";
+import { useCartItem, useHandleModal } from "./store/UniStore";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 
 interface ItemBoxProps {
    id: number;
@@ -21,13 +22,16 @@ const ItemBox = ({
    chIsOpen,
    tonPrice,
 }: ItemBoxProps) => {
+   const change = useCartItem((state) => state.add);
+   const priceOnTon = price / tonPrice;
    const open = isOpen;
 
    const currentColor =
       currency === "TMT" ? "green" : currency === "TON" ? "blue" : "orange";
 
    const modalOpener = useHandleModal((state) => state.toogle);
-
+   const rawAddress = useTonAddress(false);
+   const [tonConnectUI /* setOptions */] = useTonConnectUI();
    return (
       <div className="w-full">
          {/*  info */}
@@ -53,7 +57,7 @@ const ItemBox = ({
             <div className="flex items-center gap-4">
                {/* price */}
                <div className="text-lg font-semibold text-gray-600">
-                  {currency === "TON" ? (price / tonPrice).toFixed(4) : price}
+                  {currency === "TON" ? priceOnTon.toFixed(4) : price}
                </div>
 
                {/* currency */}
@@ -84,7 +88,19 @@ const ItemBox = ({
                   />
                </div>
                <button
-                  onClick={() => modalOpener()}
+                  onClick={() => {
+                     if (rawAddress) {
+                        change({
+                           haryt: "Yyldyz",
+                           sany: quantity,
+                           kime: "Emeki",
+                           jemi: currency === 'TON' ? parseFloat(priceOnTon.toFixed(4)) : price,
+                        });
+                        modalOpener();
+                     } else {
+                        tonConnectUI.openModal();
+                     }
+                  }}
                   className="bg-white text-black px-4 py-2 rounded-lg ring-1 ring-blue"
                >
                   Buy

@@ -1,4 +1,4 @@
-import MainBox from "@/components/MainBox";
+import MainBox from "@/components/mains/MainBox";
 import Footer from "@/components/mains/Footer";
 import Header from "@/components/mains/Header";
 import ChktMdl from "@/components/modals/ChktMdl";

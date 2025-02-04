@@ -1,6 +1,6 @@
 "use client";
 import Transactions from "@/ton/Transactions";
-import { useCartItem, useHandleModal } from "../store/UniStore";
+import { useCartItem, useHandleModal } from "../../useStore/UniStore";
 
 const ChktMdl = () => {
    const openState = useHandleModal((state) => state.isOpen);

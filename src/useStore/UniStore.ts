@@ -44,7 +44,7 @@ interface CartItemState {
       kime: string;
       jemi: number;
    };
-   add: (item: CartItemState['item']) => void
+   add: (item: CartItemState["item"]) => void;
 }
 export const useCartItem = create<CartItemState>((set) => ({
    item: {
@@ -53,5 +53,15 @@ export const useCartItem = create<CartItemState>((set) => ({
       kime: "Emeki",
       jemi: 0.3124,
    },
-   add: (item: CartItemState['item']) => set((state) => ({ ...state, item })),
+   add: (item: CartItemState["item"]) => set((state) => ({ ...state, item })),
+}));
+
+interface CurrencyState {
+   currency: "TMT" | "USDT" | "TON";
+   change: (currency: CurrencyState['currency']) => void;
+}
+
+export const useCurrency = create<CurrencyState>((set) => ({
+   currency: "TMT",
+   change: (currency) => set(() => ({ currency: currency })),
 }));

@@ -1,15 +1,17 @@
 "use client";
-interface CurrencyBoxProps {
-   crChange: (color: string) => void;
-}
 
-const CurrencyBox = ({ crChange }: CurrencyBoxProps) => {
+import { useCurrency } from "../useStore/UniStore";
+
+const CurrencyBox = () => {
+   const changeCurrency = useCurrency((state) => state.change);
    return (
       <div className="w-full rounded-3xl flex text-white overflow-hidden font-bold">
          <div
             className={`flex-1 text-center py-2 bg-green-500`}
             onClick={() => {
-               crChange("TMT");
+               changeCurrency("TMT");
+               console.log('yess');
+               
             }}
          >
             TMT
@@ -17,7 +19,8 @@ const CurrencyBox = ({ crChange }: CurrencyBoxProps) => {
          <div
             className={`flex-1 text-center py-2 bg-orange-500`}
             onClick={() => {
-               crChange("USDT");
+               changeCurrency("USDT");
+               console.log('yess');
             }}
          >
             USDT
@@ -25,7 +28,7 @@ const CurrencyBox = ({ crChange }: CurrencyBoxProps) => {
          <div
             className={`flex-1 text-center py-2 bg-blue-500`}
             onClick={() => {
-               crChange("TON");
+               changeCurrency("TON");
             }}
          >
             TON

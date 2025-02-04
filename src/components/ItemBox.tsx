@@ -1,12 +1,10 @@
 "use client";
 import { FaStar } from "react-icons/fa";
-import { useCartItem, useHandleModal } from "./store/UniStore";
+import { useCartItem, useHandleModal } from "../useStore/UniStore";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-
+import { Star } from "@prisma/client";
 interface ItemBoxProps {
-   id: number;
-   quantity: number;
-   price: number;
+   item: Star;
    currency: string;
    isOpen: number;
    tonPrice: number;
@@ -14,16 +12,19 @@ interface ItemBoxProps {
 }
 
 const ItemBox = ({
-   id,
-   quantity,
-   price,
+   item,
    currency,
    isOpen,
    chIsOpen,
    tonPrice,
 }: ItemBoxProps) => {
    const change = useCartItem((state) => state.add);
-   const priceOnTon = price / tonPrice;
+   const priceOnCurrency =
+      currency === "TMT"
+         ? item.priceTMT
+         : currency === "USDT"
+         ? item.priceUSDT
+         : item.priceUSDT / tonPrice;
    const open = isOpen;
 
    const currentColor =
@@ -38,7 +39,7 @@ const ItemBox = ({
          <div
             className="bg-white flex w-[90%] rounded-t-lg p-2 items-center justify-between mx-auto"
             onClick={() => {
-               chIsOpen(open === id ? 0 : id);
+               chIsOpen(open === item.id ? 0 : item.id);
             }}
          >
             {/* left */}
@@ -49,7 +50,7 @@ const ItemBox = ({
                </div>
                {/* star quantity*/}
                <div className="text-[1.3rem] font-semibold text-gray-600">
-                  {quantity}
+                  {item.amount}
                </div>
             </div>
 
@@ -57,7 +58,7 @@ const ItemBox = ({
             <div className="flex items-center gap-4">
                {/* price */}
                <div className="text-lg font-semibold text-gray-600">
-                  {currency === "TON" ? priceOnTon.toFixed(4) : price}
+                  {currency === "TON" ? priceOnCurrency.toFixed(4): priceOnCurrency}
                </div>
 
                {/* currency */}
@@ -70,7 +71,7 @@ const ItemBox = ({
          {/* openable bottom section */}
          <div
             className={`${
-               open === id ? "block" : "hidden"
+               open === item.id ? "block" : "hidden"
             } bg-white w-[90%] rounded-b-lg p-2 items-center mx-auto`}
          >
             {/* input box */}
@@ -92,9 +93,12 @@ const ItemBox = ({
                      if (rawAddress) {
                         change({
                            haryt: "Yyldyz",
-                           sany: quantity,
+                           sany: item.amount,
                            kime: "Emeki",
-                           jemi: currency === 'TON' ? parseFloat(priceOnTon.toFixed(4)) : price,
+                           jemi:
+                              currency === "TON"
+                                 ? parseFloat(priceOnCurrency.toFixed(4))
+                                 : Number(priceOnCurrency),
                         });
                         modalOpener();
                      } else {

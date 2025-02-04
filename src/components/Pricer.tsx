@@ -1,5 +1,5 @@
 "use client";
-import { useCoinPrice } from "./store/UniStore";
+import { useCoinPrice } from "../useStore/UniStore";
 
 const Pricer = ({ coin }: { coin: string }) => {
    const price = useCoinPrice((state) => state.price);

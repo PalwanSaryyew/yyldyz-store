@@ -1,8 +1,14 @@
 "use client";
-import Transactions from "@/ton/Transactions";
+
 import { useCartItem, useHandleModal } from "../../useStore/UniStore";
 
-const ChktMdl = () => {
+import { ReactNode } from "react";
+
+interface ChktMdlProps {
+   children: ReactNode;
+}
+
+const ChktMdl = ({ children }: ChktMdlProps) => {
    const openState = useHandleModal((state) => state.isOpen);
    const modalCloser = useHandleModal((state) => state.toogle);
    const item = useCartItem((state) => state.item);
@@ -20,30 +26,28 @@ const ChktMdl = () => {
          {/* modal */}
          <div className="w-[80%] fixed bg-slate-300 rounded-2xl flex flex-col py-2">
             <div className="border-b border-slate-100 flex justify-between mb-2 px-12 pb-1">
-               <div>Toleg gornusi </div>
-               <div>TON</div>
+               <div>Töleg görnüşi:</div>
+               <div>{item.currency}</div>
             </div>
             <div className="rounded-md overflow-hidden mx-2">
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
-                  <div>Haryt</div>
-                  <div>{item.haryt}</div>
+                  <div>Haryt:</div>
+                  <div>{item.product}</div>
                </div>
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
-                  <div>Sany</div>
-                  <div>{item.sany}</div>
+                  <div>Sany:</div>
+                  <div>{item.amount}</div>
                </div>
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
-                  <div>Kime</div>
-                  <div>{item.kime}</div>
+                  <div>Kime:</div>
+                  <div>{item.receiver}</div>
                </div>
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
-                  <div>Jemi toleg</div>
-                  <div>{item.jemi}</div>
+                  <div>Jemi toleg:</div>
+                  <div>{item.total}</div>
                </div>
             </div>
-            <div className="bg-blue-500 mt-3 mx-1 py-2 text-white rounded-lg ring-inherit ring-2 ring-blue-400 flex items-center justify-center">
-               <Transactions amount={item.jemi}/>
-            </div>
+            {children}
          </div>
       </div>
    );

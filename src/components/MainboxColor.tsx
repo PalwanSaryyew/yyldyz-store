@@ -13,7 +13,7 @@ const MainboxColor = ({ children }: { children: React.ReactNode }) => {
                : currency === "TON"
                ? "blue"
                : "orange"
-         }-500 mt-8 w-[90%] m-auto rounded-3xl`}
+         }-500 mt-8 w-[90%] m-auto rounded-3xl mb-48`}
       >
          {children}
       </div>

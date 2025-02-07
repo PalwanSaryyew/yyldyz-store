@@ -10,7 +10,7 @@ const CurrencyBox = () => {
             className={`flex-1 text-center py-2 bg-green-500`}
             onClick={() => {
                changeCurrency("TMT");
-               console.log('yess');
+               
                
             }}
          >
@@ -20,7 +20,7 @@ const CurrencyBox = () => {
             className={`flex-1 text-center py-2 bg-orange-500`}
             onClick={() => {
                changeCurrency("USDT");
-               console.log('yess');
+              
             }}
          >
             USDT

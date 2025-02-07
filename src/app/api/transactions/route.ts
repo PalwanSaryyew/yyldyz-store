@@ -1,13 +1,16 @@
+import { cmcApi } from "@/lib/fetchs";
+import { prisma } from "../../../../prisma/prismaSett";
+
 export async function GET(request: Request) {
-    const { searchParams } = new URL(request.url)
-    const id = searchParams.get('id')
-    const res = await fetch(`https://data.mongodb-api.com/product/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'API-Key': process.env.DATA_API_KEY!,
-      },
-    })
-    const product = await res.json()
+   const { searchParams } = new URL(request.url);
+   const id = searchParams.get("id");
    
-    return Response.json({ product })
-  }
+   const user = searchParams.get("user");
+   const product = await prisma.star.findUnique({ where: { id: Number(id) } });
+   const tonPrice = await cmcApi();
+   const price =
+      product && product.priceUSDT ? (product.priceUSDT / tonPrice).toFixed(4): undefined;
+   const tonComment = `${product?.amount} stars for ${price} TON`;
+
+   return Response.json({ price, tonComment, user });
+}

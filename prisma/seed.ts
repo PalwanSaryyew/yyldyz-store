@@ -71,6 +71,36 @@ async function main() {
             priceTMT: 225, 
             priceUSDT: 11.25
          },
+         {
+            id: 9,
+            amount: 1000,
+            priceTMT: 300, 
+            priceUSDT: 15
+         },
+         {
+            id: 10,
+            amount: 1500,
+            priceTMT: 410, 
+            priceUSDT: 22.50
+         },
+         {
+            id: 11,
+            amount: 2500,
+            priceTMT: 650, 
+            priceUSDT: 37.50
+         },
+         {
+            id: 12,
+            amount: 5000,
+            priceTMT: 1300, 
+            priceUSDT: 75
+         },
+         {
+            id: 13,
+            amount: 10000,
+            priceTMT: 3000, 
+            priceUSDT: 150
+         },
       ],
    });
 

@@ -1,14 +1,11 @@
-"use client";
-import { useCoinPrice } from "../useStore/UniStore";
+import { cmcApi } from "@/lib/fetchs";
 
-const Pricer = ({ coin }: { coin: string }) => {
-   const price = useCoinPrice((state) => state.price);
-   const change = useCoinPrice((state) => state.priceChanger);
-   change({ coin: coin, price, priceChanger: change }); // Assuming CoinPriceState has properties 'coin', 'price', and 'priceChanger'
+const Pricer = async ({ round }: { round: number }) => {
+   const price = await cmcApi();
    return (
       <>
          {/* {Math.round(price * 100) / 100} */}
-         {price.toFixed(2)}
+         {price?.toFixed(round)}
       </>
    );
 };

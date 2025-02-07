@@ -1,4 +1,3 @@
-import { cmcApi } from "@/lib/fetchs";
 import { create } from "zustand";
 
 interface StoreState {
@@ -21,47 +20,44 @@ export const useHandleModal = create<ModalState>((set) => ({
    toogle: () => set((state) => ({ isOpen: !state.isOpen })),
 }));
 
-interface CoinPriceState {
-   coin: string;
-   price: number;
-   priceChanger: (state: CoinPriceState) => Promise<void>;
-}
-
-export const useCoinPrice = create<CoinPriceState>((set) => ({
-   coin: "TON",
-   price: 0,
-   priceChanger: async (state: CoinPriceState) => {
-      set((state) => ({ ...state, coin: state.coin }));
-      const price = (await cmcApi(state.coin)) ?? 0;
-      set((state) => ({ ...state, price }));
-   },
-}));
-
 interface CartItemState {
    item: {
-      haryt: string;
-      sany: number;
-      kime: string;
-      jemi: number;
+      id: number
+      product: string;
+      amount: number;
+      receiver: string;
+      currency: string;
+      total: number;
    };
    add: (item: CartItemState["item"]) => void;
 }
 export const useCartItem = create<CartItemState>((set) => ({
    item: {
-      haryt: "Star",
-      sany: 260,
-      kime: "Emeki",
-      jemi: 0.3124,
+      id: 1,
+      product: "Star",
+      amount: 260,
+      receiver: "Emeki",
+      currency: 'TON',
+      total: 0.3124,
    },
    add: (item: CartItemState["item"]) => set((state) => ({ ...state, item })),
 }));
 
 interface CurrencyState {
    currency: "TMT" | "USDT" | "TON";
-   change: (currency: CurrencyState['currency']) => void;
+   change: (currency: CurrencyState["currency"]) => void;
 }
 
 export const useCurrency = create<CurrencyState>((set) => ({
    currency: "TMT",
    change: (currency) => set(() => ({ currency: currency })),
+}));
+
+interface WhichIsOpenState {
+   opened: number;
+   change: (indx: WhichIsOpenState["opened"]) => void;
+}
+export const useWhicIsOpen = create<WhichIsOpenState>((set) => ({
+   opened: 0,
+   change: (indx) => set(() => ({ opened: indx })),
 }));

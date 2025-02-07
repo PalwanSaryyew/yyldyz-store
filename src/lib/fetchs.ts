@@ -1,29 +1,51 @@
-//const cmcApikey = "dd4d85ec-6fdc-4692-8de7-5937ad53a660";
-/* 
-export const cmcApi = async (coin: string) => {
+
+
+const cmcApikey = process.env.CMC_API_KEY || '';
+const toncoinId = "11419";
+const coinId = toncoinId;
+const fetchUrl = `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?id=${coinId}`;
+
+export const cmcApi = async () => {
    try {
-      const response = await fetch(`https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?slug=${coin}`, {
+      const response = await fetch(fetchUrl, {
          headers: {
             "X-CMC_PRO_API_KEY": cmcApikey,
          },
-         cache: "no-store"
+         cache: "no-cache"
       });
       const result = await response.json();
       const coinData = result.data;
       const coinId = Object.keys(coinData)[0]; // İlk anahtarı al
       const coinPrice = coinData[coinId].quote.USD.price; // Fiyatı al
-      console.log(coinPrice);
+      
       return coinPrice;
    } catch (error: unknown) {
       console.log((error as Error).message);
-      return undefined;
+      return 0.4;
    }
 };
- */
+/* export const cmcApi = async () => {
+   const response = await fetch(fetchUrl, {
+      headers: {
+         "X-CMC_PRO_API_KEY": cmcApikey,
+      },
+      cache: "no-store",
+   })
+      .then(async (result) => await result.json())
+      .then((coinData) => coinData)
+      .catch((err) => console.log(err.message));
 
-import { coinData } from "./data"
+   const coinData = response.data;
+   const coinId = Object.keys(coinData)[0]; // İlk anahtarı al
+   const coinPrice = coinData[coinId].quote.USD.price; // Fiyatı al
+   return coinPrice;
+}; */
 
-export const cmcApi = async (coin: string) => {
-   const data = coinData.find((item) => item.name === coin);
-   return data?.price;
+//import { coinData } from "./data"
+
+export const cmcApiLoc = async () => {
+   // const dataLoc = coinData.find((item) => item.name === coin);
+   const data = await cmcApi();
+   
+   return data;
 }

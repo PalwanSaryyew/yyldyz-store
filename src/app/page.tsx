@@ -1,17 +1,16 @@
 import MainBox from "@/components/mains/MainBox";
 import Footer from "@/components/mains/Footer";
 import Header from "@/components/mains/Header";
-import ChktMdl from "@/components/modals/ChktMdl";
-import { cmcApi } from "@/lib/fetchs";
+import ModalProvider from "@/components/modals/ModalProvider";
 
 export default async function Home() {
-   const price = (await cmcApi("TON")) ?? 0;
 
    return (
       <main className="min-h-screen">
-         <ChktMdl />
-         <Header  />
-         <MainBox tonPrice={price} />
+         <span className="text-orange-500 text-blue-500 text-green-500"></span>
+         <ModalProvider />
+         <Header />
+         <MainBox  />
          <Footer />
       </main>
    );

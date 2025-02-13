@@ -6,14 +6,18 @@ import {
    useTonAddress,
    useTonConnectUI,
 } from "@tonconnect/ui-react";
+import { useState } from "react";
 
 const Transactions = () => {
    const [tonConnectUI /* setOptions */] = useTonConnectUI();
    const rawAddress = useTonAddress(false);
    const item = useCartItem((state) => state.item);
 
+   const [isLoading, setIsLoading] = useState(false);
+
    const handleClick = async () => {
-      await fetch(`/api/transactions?id=${item.id}&user=${'tester'}`)
+      setIsLoading(true);
+      await fetch(`/api/transactions?id=${item.id}&user=${"tester"}`)
          .then((response) => response.json())
          .then((data) => {
             console.log("data", data);
@@ -41,16 +45,35 @@ const Transactions = () => {
          })
          .catch((error) => {
             throw new Error(`HTTP error! status: ${error.message}`);
+         })
+         .finally(() => {
+            setIsLoading(false);
          });
    };
 
-   if (!rawAddress)
-      return (
-         <button onClick={() => tonConnectUI.openModal()}>
-            Connect Wallet
-         </button>
-      );
-   return <button onClick={handleClick}>Send transaction</button>;
+   return (
+      <button
+         disabled={isLoading}
+         onClick={() => {
+            if (rawAddress) {
+               handleClick();
+            } else if (!rawAddress){
+               tonConnectUI.openModal();
+            } else {
+               
+            }
+         }}
+         className={`${
+            isLoading ? "bg-blue-500/50" : "bg-blue-500"
+         } w-full py-2 text-white rounded-lg ring-inherit ring-2 ring-blue-400 flex items-center justify-center`}
+      >
+         {!rawAddress
+            ? "Connect Wallet"
+            : isLoading
+            ? "Loading..."
+            : "Send transaction"}
+      </button>
+   );
 };
 
 export default Transactions;

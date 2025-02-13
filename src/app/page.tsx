@@ -1,17 +1,15 @@
-import MainBox from "@/components/mains/MainBox";
-import Footer from "@/components/mains/Footer";
-import Header from "@/components/mains/Header";
-import ModalProvider from "@/components/modals/ModalProvider";
+
+import { prisma } from "../../prisma/prismaSett";
+import MainboxColor from "@/components/MainboxColor";
+import CurrencyBox from "@/components/CurrencyBox";
+import StoreBox from "@/components/StoreBox";
 
 export default async function Home() {
-
+   const starsData = await prisma.star.findMany();
    return (
-      <main className="min-h-screen">
-         <span className="text-orange-500 text-blue-500 text-green-500"></span>
-         <ModalProvider />
-         <Header />
-         <MainBox  />
-         <Footer />
-      </main>
+      <MainboxColor>
+         <CurrencyBox />
+         <StoreBox starsData={starsData} />
+      </MainboxColor>
    );
 }

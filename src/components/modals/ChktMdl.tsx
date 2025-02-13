@@ -1,8 +1,13 @@
 "use client";
 
-import { useCartItem, useHandleModal } from "../../useStore/UniStore";
+import {
+   useCartItem,
+   useCurrency,
+   useHandleModal,
+} from "../../useStore/UniStore";
 
 import { ReactNode } from "react";
+import Tmt from "../payments/Tmt";
 
 interface ChktMdlProps {
    children: ReactNode;
@@ -10,6 +15,7 @@ interface ChktMdlProps {
 
 const ChktMdl = ({ children }: ChktMdlProps) => {
    const openState = useHandleModal((state) => state.isOpen);
+   const currency = useCurrency((state) => state.currency);
    const modalCloser = useHandleModal((state) => state.toogle);
    const item = useCartItem((state) => state.item);
 
@@ -29,6 +35,7 @@ const ChktMdl = ({ children }: ChktMdlProps) => {
                <div>Töleg görnüşi:</div>
                <div>{item.currency}</div>
             </div>
+
             <div className="rounded-md overflow-hidden mx-2">
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
                   <div>Haryt:</div>
@@ -47,7 +54,15 @@ const ChktMdl = ({ children }: ChktMdlProps) => {
                   <div>{item.total}</div>
                </div>
             </div>
-            {children}
+            <div className="w-full px-3 pt-2">
+               {currency === "TON" ? (
+                  children
+               ) : currency === "TMT" ? (
+                  <Tmt />
+               ) : (
+                  "usdt"
+               )}
+            </div>
          </div>
       </div>
    );

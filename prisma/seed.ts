@@ -2,16 +2,22 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 async function main() {
+/*    await prisma.star.deleteMany()
+   await prisma.order.deleteMany()
+   await prisma.tonTransaction.deleteMany()
+   await prisma.user.deleteMany() */
+   
    // Seed users
-   await prisma.user.deleteMany()
    await prisma.user.createMany({
       data: [
          {
+            id: 1,
             username: "admin",
             name: "Admin User",
             role: "admin",
          },
          {
+            id: 2,
             username: "client",
             name: "Client User",
             role: "client",
@@ -20,7 +26,6 @@ async function main() {
    });
 
    // Seed stars
-   await prisma.star.deleteMany()
    await prisma.star.createMany({
       data: [
          {

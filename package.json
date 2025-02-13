@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "delete": "ts-node prisma/delete.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.3.0",
     "@ton/ton": "^15.1.0",
     "@tonconnect/ui-react": "^2.0.11",
+    "@twa-dev/sdk": "^8.0.2",
     "next": "14.2.23",
     "react": "^18",
     "react-dom": "^18",

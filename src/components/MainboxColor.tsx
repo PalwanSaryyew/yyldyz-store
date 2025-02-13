@@ -6,7 +6,7 @@ import { useCurrency } from "../useStore/UniStore";
 const MainboxColor = ({ children }: { children: React.ReactNode }) => {
    const currency = useCurrency((state) => state.currency);
    return (
-      <div
+      <main
          className={`flex flex-col items-center bg-${
             currency === "TMT"
                ? "green"
@@ -16,7 +16,7 @@ const MainboxColor = ({ children }: { children: React.ReactNode }) => {
          }-500 mt-8 w-[90%] m-auto rounded-3xl mb-48`}
       >
          {children}
-      </div>
+      </main>
    );
 };
 

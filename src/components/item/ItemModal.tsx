@@ -41,10 +41,11 @@ const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
                   type="text"
                   name="receiver"
                   id=""
-                  className="border-none w-full outline-none bg-transparent text-gray-100 font-medium text-lg placeholder:text-gray-200/80 placeholder:text-base"
+                  className="border-none py-2 w-full outline-none bg-transparent text-gray-100 font-medium text-lg placeholder:text-gray-200/80 placeholder:text-base"
                   placeholder="username"
                   value={receiver}
                   onChange={(e) => setReceiver(e.target.value)}
+                  autoComplete="off"
                />
             </div>
             <button
@@ -67,7 +68,7 @@ const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
                      // tonConnectUI.openModal();
                   }
                }}
-               className="bg-white text-black px-4 py-2 rounded-lg ring-1 ring-blue"
+               className={`${receiver.length < 1 ?'hidden' : 'block'} bg-white text-black px-4 py-2 rounded-lg ring-1 ring-blue`}
             >
                Buy
             </button>

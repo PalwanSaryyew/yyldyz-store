@@ -1,0 +1,78 @@
+-- CreateEnum
+CREATE TYPE "OrderStatus" AS ENUM ('pending', 'paid', 'delivering', 'completed', 'cancelled', 'expired');
+
+-- CreateEnum
+CREATE TYPE "PaymentMethod" AS ENUM ('USDT', 'TON', 'TMT');
+
+-- CreateEnum
+CREATE TYPE "UserRole" AS ENUM ('client', 'admin');
+
+-- CreateEnum
+CREATE TYPE "Courier" AS ENUM ('courier_1', 'courier_2');
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "first_name" TEXT NOT NULL,
+    "last_name" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "language_code" TEXT NOT NULL,
+    "is_premium" BOOLEAN NOT NULL DEFAULT false,
+    "allows_write_to_pm" BOOLEAN NOT NULL,
+    "photo_url" TEXT NOT NULL,
+    "auth_date" TEXT NOT NULL,
+    "role" "UserRole" NOT NULL DEFAULT 'client',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Star" (
+    "id" SERIAL NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "priceTMT" DOUBLE PRECISION NOT NULL,
+    "priceUSDT" DOUBLE PRECISION NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Star_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Order" (
+    "id" SERIAL NOT NULL,
+    "userId" TEXT NOT NULL,
+    "productId" INTEGER NOT NULL,
+    "courier" "Courier",
+    "status" "OrderStatus" NOT NULL,
+    "payment" "PaymentMethod" NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TonTransaction" (
+    "id" TEXT NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+    "orderId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "TonTransaction_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TonTransaction_orderId_key" ON "TonTransaction"("orderId");
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Star"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TonTransaction" ADD CONSTRAINT "TonTransaction_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,6 +1,6 @@
 const Page = () => {
   return (
-    <div className=''>tmt</div>
+    <div className=''>Error</div>
   )
 }
 

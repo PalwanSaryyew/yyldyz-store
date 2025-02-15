@@ -61,3 +61,20 @@ export const useWhicIsOpen = create<WhichIsOpenState>((set) => ({
    opened: 0,
    change: (indx) => set(() => ({ opened: indx })),
 }));
+
+interface UserState {
+   user: {
+      id: string;
+      username: string;
+      photo_url: string;
+   };
+   add: (item: UserState["user"]) => void;
+}
+export const useUser = create<UserState>((set) => ({
+   user: {
+      id: "",
+      username: "boca",
+      photo_url: "",
+   },
+   add: (user: UserState["user"]) => set((state) => ({ ...state, user })),
+}));

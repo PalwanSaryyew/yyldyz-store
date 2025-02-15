@@ -1,110 +1,87 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 async function main() {
-/*    await prisma.star.deleteMany()
-   await prisma.order.deleteMany()
-   await prisma.tonTransaction.deleteMany()
-   await prisma.user.deleteMany() */
-   
-   // Seed users
-   await prisma.user.createMany({
-      data: [
-         {
-            id: 1,
-            username: "admin",
-            name: "Admin User",
-            role: "admin",
-         },
-         {
-            id: 2,
-            username: "client",
-            name: "Client User",
-            role: "client",
-         },
-      ],
-   });
-
    // Seed stars
    await prisma.star.createMany({
       data: [
          {
             id: 1,
             amount: 50,
-            priceTMT: 15, 
-            priceUSDT: 0.75
+            priceTMT: 15,
+            priceUSDT: 0.75,
          },
          {
             id: 2,
             amount: 75,
-            priceTMT: 20, 
-            priceUSDT: 1.13
+            priceTMT: 20,
+            priceUSDT: 1.13,
          },
          {
             id: 3,
             amount: 100,
             priceTMT: 30,
-            priceUSDT:  1.5
+            priceUSDT: 1.5,
          },
          {
             id: 4,
             amount: 150,
-            priceTMT: 45, 
-            priceUSDT: 2.25
+            priceTMT: 45,
+            priceUSDT: 2.25,
          },
          {
             id: 5,
             amount: 250,
-            priceTMT: 75, 
-            priceUSDT: 3.75
+            priceTMT: 75,
+            priceUSDT: 3.75,
          },
          {
             id: 6,
             amount: 350,
-            priceTMT: 125, 
-            priceUSDT: 5.25
+            priceTMT: 125,
+            priceUSDT: 5.25,
          },
          {
             id: 7,
             amount: 500,
             priceTMT: 150,
-            priceUSDT:  7.5
+            priceUSDT: 7.5,
          },
          {
             id: 8,
             amount: 750,
-            priceTMT: 225, 
-            priceUSDT: 11.25
+            priceTMT: 225,
+            priceUSDT: 11.25,
          },
          {
             id: 9,
             amount: 1000,
-            priceTMT: 300, 
-            priceUSDT: 15
+            priceTMT: 300,
+            priceUSDT: 15,
          },
          {
             id: 10,
             amount: 1500,
-            priceTMT: 410, 
-            priceUSDT: 22.50
+            priceTMT: 410,
+            priceUSDT: 22.5,
          },
          {
             id: 11,
             amount: 2500,
-            priceTMT: 650, 
-            priceUSDT: 37.50
+            priceTMT: 650,
+            priceUSDT: 37.5,
          },
          {
             id: 12,
             amount: 5000,
-            priceTMT: 1300, 
-            priceUSDT: 75
+            priceTMT: 1300,
+            priceUSDT: 75,
          },
          {
             id: 13,
             amount: 10000,
-            priceTMT: 3000, 
-            priceUSDT: 150
+            priceTMT: 3000,
+            priceUSDT: 150,
          },
       ],
    });

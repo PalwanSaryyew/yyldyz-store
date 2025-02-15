@@ -2,7 +2,7 @@ import { prisma } from "../../../prisma/prismaSett"
 
 const data = await prisma.order.findMany({
   where: {
-    userId: 2
+    userId: '1'
   }
 })
 const Page = () => {

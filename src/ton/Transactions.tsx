@@ -1,5 +1,5 @@
 "use client";
-import { useCartItem } from "@/useStore/UniStore";
+import { useCartItem, useUser } from "@/useStore/UniStore";
 import { beginCell, toNano } from "@ton/ton";
 import {
    SendTransactionRequest,
@@ -12,12 +12,12 @@ const Transactions = () => {
    const [tonConnectUI /* setOptions */] = useTonConnectUI();
    const rawAddress = useTonAddress(false);
    const item = useCartItem((state) => state.item);
-
+   const user = useUser((state) => state.user);
    const [isLoading, setIsLoading] = useState(false);
 
    const handleClick = async () => {
       setIsLoading(true);
-      await fetch(`/api/transactions?id=${item.id}&user=${"tester"}`)
+      await fetch(`/api/transactions?id=${item.id}&user=${user.id}`)
          .then((response) => response.json())
          .then((data) => {
             console.log("data", data);

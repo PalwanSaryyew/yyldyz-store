@@ -1,6 +1,6 @@
 import { bot } from "./bot";
-const palwan = 5065229463;
-const hajy = 6860526719;
+const palwan = process.env.PALWAN_ID || 0;
+const hajy = process.env.HAJY_ID || 0;
 
 export async function orderScript(
    buyerId: string,

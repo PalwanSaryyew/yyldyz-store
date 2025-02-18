@@ -8,6 +8,7 @@ import {
 
 import { ReactNode } from "react";
 import Tmt from "../payments/Tmt";
+import Usdt from "../payments/Usdt";
 
 interface ChktMdlProps {
    children: ReactNode;
@@ -58,9 +59,9 @@ const ChktMdl = ({ children }: ChktMdlProps) => {
                {currency === "TON" ? (
                   children
                ) : currency === "TMT" ? (
-                  <Tmt />
+                  <Tmt item={item}/>
                ) : (
-                  "usdt"
+                  <Usdt item={item}/>
                )}
             </div>
          </div>

@@ -34,7 +34,7 @@ export default async function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
          >
                <TonProvider>
-                  <span className="text-orange-500 text-blue-500 text-green-500 bg-blue-500/50"></span>
+                  <span className="text-orange-500 text-blue-500 text-green-500 bg-blue-500/50 bg-orange-500/50 bg-green-500/50" ></span>
                   <ModalProvider />
                   <Header />
                   {children}

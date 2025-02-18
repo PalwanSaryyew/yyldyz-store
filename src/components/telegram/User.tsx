@@ -27,13 +27,13 @@ const User = () => {
          }
       };
       getAll();
-   }, []);
+   }, [setUserState]);
 
    return (
       <div className="bg-blue-500 text-white p-1 font-bold rounded-3xl flex items-center gap-1 ring-2 ring-white">
          <Image
             alt=""
-            src={getUserState?.photo_url || "/emeki.png"}
+            src={getUserState?.photo_url || ""}
             width={50}
             height={50}
             className="rounded-full"

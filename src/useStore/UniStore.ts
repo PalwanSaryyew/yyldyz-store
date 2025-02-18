@@ -20,7 +20,7 @@ export const useHandleModal = create<ModalState>((set) => ({
    toogle: () => set((state) => ({ isOpen: !state.isOpen })),
 }));
 
-interface CartItemState {
+export interface CartItemState {
    item: {
       id: number
       product: string;

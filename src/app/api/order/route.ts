@@ -1,6 +1,7 @@
-import { PaymentMethod } from "@prisma/client";
+import { PaymentMethod, TonTransaction } from "@prisma/client";
 import { prisma } from "../../../../prisma/prismaSett";
 import { orderScript } from "../../../../bot/scripts";
+import { cmcApi } from "@/lib/fetchs";
 
 export async function GET(request: Request) {
    const { searchParams } = new URL(request.url);
@@ -9,57 +10,115 @@ export async function GET(request: Request) {
    const busername = searchParams.get("bsrnm");
    const rusername = searchParams.get("rsrnm");
    const currency = searchParams.get("crrnc");
-
-   const product = await prisma.star
-      .findUnique({
-         where: { id: Number(productId) },
-      })
-      .catch((error) => {
-         console.log(error);
-         return Response.json({ success: false, error });
+   const tonPrice = await cmcApi();
+   if (!(productId && userId && busername && rusername && currency)) {
+      console.error("Wrong Request");
+      return Response.json({
+         success: false,
+         message: "Wrong request",
       });
+   }
+
+   const productData = await prisma.star.findUnique({
+      where: { id: Number(productId) },
+   });
+
+   /* if product not found */
+   if (!productData) {
+      console.error("Product not found");
+      return Response.json({
+         success: false,
+         message: "Product not found",
+      });
+   }
+
+   const userData = await prisma.user
+      .findUnique({
+         where: { id: userId.toString() },
+      })
+      .then(async (resuserData) => {
+         /* creating user if it is not exist */
+         if (resuserData) {
+            return resuserData;
+         } else {
+            const newUserData = await prisma.user.create({
+               data: { id: userId.toString() },
+            });
+            return newUserData;
+         }
+      });
+
+   if (!userData) {
+      console.error("User db error");
+      return Response.json({
+         success: false,
+         message: "User db error",
+      });
+   }
 
    const transaction = await prisma.$transaction(async (prisma) => {
-      const whichUser = await prisma.user.upsert({
-         where: { id: userId?.toString() || "" },
-         update: { id: userId?.toString() || "" },
-         create: { id: userId?.toString() || "" },
+      const newOrder = await prisma.order.create({
+         data: {
+            userId: userData.id,
+            productId: productData.id,
+            status: "pending",
+            payment: currency as PaymentMethod,
+            receiver: rusername,
+         },
       });
-      const newOrder = await prisma.order
-         .create({
+      const tontonComment = async () => {
+         if (newOrder.payment !== "TON") {
+            return null;
+         }
+         const transactionData = await prisma.tonTransaction.create({
             data: {
-               userId: whichUser ? whichUser.id : "",
-               productId:
-                  product && !(product instanceof Response) ? product.id : 0,
-               status: "pending",
-               payment: currency as PaymentMethod,
+               price: Number(
+                  (productData.priceUSDT / Number(tonPrice)).toFixed(4)
+               ),
+               orderId: newOrder.id,
             },
-         })
-         .catch((error) => {
-            console.log(error);
-            return Response.json({ success: false, error });
          });
 
-      return { order: newOrder, user: whichUser };
-   });
-   const botMess = await orderScript(
-      transaction.user.id,
-      busername?.toString() || "",
-      currency || "",
-      "Ýyldyz",
-      product && !(product instanceof Response)
-         ? product.amount.toString()
-         : "0",
-      rusername?.toString() || "",
-      currency === "TMT"
-         ? product && !(product instanceof Response)
-            ? product.priceTMT.toString()
-            : "0"
-         : product && !(product instanceof Response)
-         ? product.priceUSDT.toString()
-         : "0"
-   );
+         return transactionData;
+      };
 
-   if (!botMess)  return Response.json({ success: false });
-   return Response.json({ success: true });
+      return { orderData: newOrder, tonTransaction: await tontonComment() };
+   });
+
+   const botRes = await orderScript(
+      userData.id,
+      busername,
+      transaction.orderData.payment,
+      "Ýyldyz",
+      productData.amount.toString(),
+      transaction.orderData.receiver,
+      currency === "TMT"
+         ? productData.priceTMT.toString()
+         : productData.priceUSDT.toString()
+   );
+   if (!botRes) {
+      console.error("Bot message failed");
+      return Response.json({
+         success: false,
+         message: "Bot message failed",
+      });
+   }
+
+   if (transaction.orderData.payment === "TON") {
+      if (transaction.tonTransaction) {
+         return Response.json({
+            success: true,
+            tonComment: `${productData.amount} Stars for ${transaction.tonTransaction.price} TON\n\n${transaction.tonTransaction.id}`,
+            price: transaction.tonTransaction.price,
+         });
+      }
+      console.error("Transaction db error");
+      return Response.json({
+         success: false,
+         message: "Transaction db error",
+      });
+   }
+   return Response.json({
+      success: true,
+   });
 }

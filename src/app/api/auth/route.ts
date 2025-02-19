@@ -13,28 +13,12 @@ export async function POST(request: Request) {
       console.log("[Validation result]: ", validationResult);
       const user = {
          id: validationResult.user.id.toString(),
-         first_name: validationResult.user.first_name,
-         last_name: validationResult.user.last_name,
-         username: validationResult.user.username || "",
-         language_code: validationResult.user.language_code,
-         is_premium: validationResult.user?.is_premium ? true : false,
-         allows_write_to_pm: validationResult.user.allows_write_to_pm,
-         photo_url: validationResult.user.photo_url,
-         auth_date: validationResult.validatedData.auth_date,
-      };
-      const payload = {
-         id: validationResult.user.id.toString(),
-         first_name: validationResult.user.first_name,
-         last_name: validationResult.user.last_name,
-         username: validationResult.user.username || "",
-         language_code: validationResult.user.language_code,
-         is_premium: validationResult.user?.is_premium ? true : false,
-         photo_url: validationResult.user.photo_url,
+         
       };
 
       // Create a new session
       const expires = new Date(Date.now() + SESSION_DURATION);
-      const session = await encrypt({ payload, expires });
+      const session = await encrypt({ user, expires });
 
       // Save the session in a cookie
       await prisma.user.upsert({

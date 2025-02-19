@@ -1,4 +1,6 @@
 import { PrismaClient } from "@prisma/client";
+const palwan = process.env.PALWAN_ID || "0";
+const hajy = process.env.HAJY_ID || "1";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -82,6 +84,20 @@ async function main() {
             amount: 10000,
             priceTMT: 3000,
             priceUSDT: 150,
+         },
+      ],
+   });
+
+   // Seed admins
+   await prisma.user.createMany({
+      data: [
+         {
+            id: palwan.toString(),
+            role: "admin",
+         },
+         {
+            id: hajy.toString(),
+            role: "admin",
          },
       ],
    });

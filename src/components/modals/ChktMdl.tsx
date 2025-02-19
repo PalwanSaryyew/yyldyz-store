@@ -7,8 +7,8 @@ import {
 } from "../../useStore/UniStore";
 
 import { ReactNode } from "react";
-import Tmt from "../payments/Tmt";
-import Usdt from "../payments/Usdt";
+
+import TmtUsdt from "../payments/TmtUsdt";
 
 interface ChktMdlProps {
    children: ReactNode;
@@ -58,10 +58,8 @@ const ChktMdl = ({ children }: ChktMdlProps) => {
             <div className="w-full px-3 pt-2">
                {currency === "TON" ? (
                   children
-               ) : currency === "TMT" ? (
-                  <Tmt item={item}/>
                ) : (
-                  <Usdt item={item}/>
+                  <TmtUsdt currency={currency} item={item} />
                )}
             </div>
          </div>

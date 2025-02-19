@@ -33,12 +33,12 @@ const User = () => {
       <div className="bg-blue-500 text-white p-1 font-bold rounded-3xl flex items-center gap-1 ring-2 ring-white">
          <Image
             alt=""
-            src={getUserState?.photo_url || ""}
+            src={getUserState?.photo_url || "/no-user.png"}
             width={50}
             height={50}
             className="rounded-full"
          />
-         <span>{getUserState ? getUserState.username : ""}</span>
+         <span>{getUserState ? getUserState.username : "username"}</span>
       </div>
    );
 };

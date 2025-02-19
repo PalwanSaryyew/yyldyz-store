@@ -17,34 +17,36 @@ const Transactions = () => {
 
    const handleClick = async () => {
       setIsLoading(true);
-      await fetch(`/api/transactions?id=${item.id}&user=${user.id}`)
+      await fetch(
+         `/api/order?pid=${item.id}&bid=${user.id}&bsrnm=${user.username}&rsrnm=${item.receiver}&crrnc=${item.currency}`
+      )
          .then((response) => response.json())
          .then((data) => {
-            console.log("data", data);
-            const body = beginCell()
-               .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
-               .storeStringTail(data.tonComment) // write our text comment
-               .endCell();
-            const transaction: SendTransactionRequest = {
-               validUntil: Date.now() + 15 * 60 * 1000, // 15 minutes
-               messages: [
-                  {
-                     address:
-                        "UQDi3J28_M_iFFZ9IiukdK7adLkY5SXiMUgWFMFZNAktkDsO", // message destination in user-friendly format
-                     amount: toNano(data.price).toString(),
-                     payload: body.toBoc().toString("base64"),
-                  },
-               ],
-            };
-            const sendTran = (
-               tonConnectUI: ReturnType<typeof useTonConnectUI>[0]
-            ) => {
-               tonConnectUI.sendTransaction(transaction);
-            };
-            sendTran(tonConnectUI);
-         })
-         .catch((error) => {
-            throw new Error(`HTTP error! status: ${error.message}`);
+            if (data.success) {
+               const body = beginCell()
+                  .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
+                  .storeStringTail(data.tonComment) // write our text comment
+                  .endCell();
+               const transaction: SendTransactionRequest = {
+                  validUntil: Date.now() + 15 * 60 * 1000, // 15 minutes
+                  messages: [
+                     {
+                        address:
+                           "UQDi3J28_M_iFFZ9IiukdK7adLkY5SXiMUgWFMFZNAktkDsO", // message destination in user-friendly format
+                        amount: toNano(data.price).toString(),
+                        payload: body.toBoc().toString("base64"),
+                     },
+                  ],
+               };
+               const sendTran = (
+                  tonConnectUI: ReturnType<typeof useTonConnectUI>[0]
+               ) => {
+                  tonConnectUI.sendTransaction(transaction);
+               };
+               sendTran(tonConnectUI);
+            } else {
+               alert("Yalnyslyk doredi");
+            }
          })
          .finally(() => {
             setIsLoading(false);
@@ -57,10 +59,9 @@ const Transactions = () => {
          onClick={() => {
             if (rawAddress) {
                handleClick();
-            } else if (!rawAddress){
+            } else if (!rawAddress) {
                tonConnectUI.openModal();
             } else {
-               
             }
          }}
          className={`${

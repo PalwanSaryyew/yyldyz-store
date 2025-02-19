@@ -14,11 +14,11 @@ datasource db {
 }
 
 model User {
-  id                 String   @id
-  role               UserRole @default(client)
-  orders             Order[]
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id        String   @id
+  role      UserRole @default(client)
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Star {
@@ -34,6 +34,7 @@ model Star {
 model Order {
   id             Int             @id @default(autoincrement())
   userId         String
+  receiver       String
   productId      Int
   courier        Courier?
   tonTransaction TonTransaction?

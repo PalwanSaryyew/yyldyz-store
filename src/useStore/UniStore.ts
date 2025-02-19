@@ -73,8 +73,8 @@ interface UserState {
 export const useUser = create<UserState>((set) => ({
    user: {
       id: "",
-      username: "boca",
-      photo_url: "",
+      username: "username",
+      photo_url: "/no-user.png",
    },
    add: (user: UserState["user"]) => set((state) => ({ ...state, user })),
 }));

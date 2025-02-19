@@ -28,6 +28,7 @@ export async function GET(request: Request) {
             productId: product?.id || 0,
             status: "pending",
             payment: "TON",
+            receiver: 'nem'
          },
       });
 

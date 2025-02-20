@@ -14,7 +14,7 @@ const ItemModalOpener = ({
    const isOpen = useWhicIsOpen((state) => state.opened);
    return (
       <div
-         className="bg-white flex w-[90%] rounded-t-lg p-2 items-center justify-between mx-auto"
+         className="bg-white cursor-pointer flex w-[90%] rounded-t-lg p-2 items-center justify-between mx-auto"
          onClick={() => {
             chIsOpen(isOpen === id ? 0 : id);
          }}

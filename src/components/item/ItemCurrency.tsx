@@ -1,14 +1,20 @@
 "use client";
 
 import { useCurrency } from "@/useStore/UniStore";
+import { cn } from "@/utils/tailwindMerge";
 
 const ItemCurrency = () => {
    const currency = useCurrency((state) => state.currency);
 
-   const currentColor =
-      currency === "TMT" ? "green" : currency === "TON" ? "blue" : "orange";
+   const currentColor = cn(
+      currency === "TMT"
+         ? "text-green-600"
+         : currency === "TON"
+         ? "text-blue-600"
+         : "text-orange-600"
+   );
    return (
-      <div className={`text-${currentColor}-500 font-bold text-lg`}>
+      <div className={`${currentColor} font-bold text-lg`}>
          {currency}
       </div>
    );

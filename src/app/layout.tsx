@@ -6,7 +6,6 @@ import ModalProvider from "@/components/modals/ModalProvider";
 import Header from "@/components/mains/Header";
 import Footer from "@/components/mains/Footer";
 
-
 const geistSans = localFont({
    src: "./fonts/GeistVF.woff",
    variable: "--font-geist-sans",
@@ -31,16 +30,15 @@ export default async function RootLayout({
    return (
       <html lang="en">
          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
          >
-               <TonProvider>
-                  <span className="text-orange-500 text-blue-500 text-green-500 bg-blue-500/50 bg-orange-500/50 bg-green-500/50" ></span>
-                  <ModalProvider />
-                  <Header />
-                  {children}
-                  <Footer />
-               </TonProvider>
-            
+            <TonProvider>
+               <ModalProvider />
+               <Header />
+               {children}
+               <Footer />
+            </TonProvider>
+           
          </body>
       </html>
    );

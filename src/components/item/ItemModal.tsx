@@ -7,6 +7,7 @@ import {
    useWhicIsOpen,
 } from "../../useStore/UniStore";
 import { useState } from "react";
+import { cn } from "@/utils/tailwindMerge";
 // import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
    const isOpen = useWhicIsOpen((state) => state.opened);
@@ -20,8 +21,13 @@ const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
          ? item.priceUSDT
          : Number((item.priceUSDT / tonPrice).toFixed(4));
 
-   const currentColor =
-      currency === "TMT" ? "green" : currency === "TON" ? "blue" : "orange";
+   const currentColor = cn(
+      currency === "TMT"
+         ? "bg-green-600"
+         : currency === "TON"
+         ? "bg-blue-600"
+         : "bg-orange-600"
+   );
    //const rawAddress = useTonAddress(false);
    //const [tonConnectUI /* setOptions */] = useTonConnectUI();
    const [receiver, setReceiver] = useState<string>("");
@@ -33,7 +39,7 @@ const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
       >
          {/* input box */}
          <div
-            className={`bg-${currentColor}-500 mx-auto p-1 rounded-lg flex items-center justify-between`}
+            className={`${currentColor} mx-auto p-1 rounded-lg flex items-center justify-between`}
          >
             <div className="text-gray-100 font-semibold text-lg pr-1">@</div>
             <div className="overflow-hidden px-1 flex-1">
@@ -49,14 +55,14 @@ const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
                />
             </div>
             <button
-            disabled={receiver.length < 1}
+               disabled={receiver.length < 1}
                onClick={() => {
                   if (/* rawAddress */ true) {
                      change({
                         id: item.id,
                         product: "Ýyldyz",
                         amount: item.amount,
-                        receiver: '@'+receiver,
+                        receiver: "@" + receiver,
                         currency: currency,
                         total:
                            currency === "TON"
@@ -68,7 +74,9 @@ const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
                      // tonConnectUI.openModal();
                   }
                }}
-               className={`${receiver.length < 1 ?'hidden' : 'block'} bg-white text-black px-4 py-2 rounded-lg ring-1 ring-blue`}
+               className={`${
+                  receiver.length < 1 ? "hidden" : "block"
+               } bg-white text-black px-4 py-2 rounded-lg ring-1 ring-blue`}
             >
                Buy
             </button>

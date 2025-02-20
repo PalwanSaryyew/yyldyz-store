@@ -1,3 +1,4 @@
+import { webApp } from "@/lib/webApp";
 import { CartItemState, useHandleModal, useUser } from "@/useStore/UniStore";
 import { useState } from "react";
 
@@ -9,8 +10,12 @@ const TmtUsdt = ({
    currency: string;
 }) => {
    const [loading, setLoading] = useState(false);
-   const tmtClass = loading ? "bg-green-500/50" : "bg-green-500";
-   const usdtClass = loading ? "bg-orange-500/50" : "bg-orange-500";
+   const tmtClass = loading
+      ? "bg-green-600/50 ring-green-700"
+      : "bg-green-600 ring-green-700";
+   const usdtClass = loading
+      ? "bg-orange-600/50 ring-orange-700"
+      : "bg-orange-600 ring-orange-700";
    const user = useUser((state) => state.user);
    const modal = useHandleModal((state) => state.toogle);
    const handleClick = async () => {
@@ -19,13 +24,14 @@ const TmtUsdt = ({
          `/api/order?pid=${item.id}&bid=${user.id}&bsrnm=${user.username}&rsrnm=${item.receiver}&crrnc=${item.currency}`
       )
          .then((response) => response.json())
-         .then((data) => {
+         .then(async (data) => {
+            const app = await webApp();
             if (data.success) {
                modal();
-               alert("Sargyt kabul edilyanca garasyn");
+               app.showAlert("Sargyt kabul edilyanca garasyn");
             } else {
                modal();
-               alert("Yalnyslyk doredi");
+               app.showAlert("Yalnyslyk doredi");
             }
          });
    };
@@ -35,7 +41,7 @@ const TmtUsdt = ({
          onClick={handleClick}
          className={`${
             currency === "TMT" ? tmtClass : usdtClass
-         } w-full py-2 text-white rounded-lg ring-inherit ring-2 ring-green-600 flex items-center justify-center`}
+         } ring-green-700 w-full py-2 text-white rounded-lg ring-inherit ring-2 flex items-center justify-center`}
       >
          {loading ? "loading..." : "Tassykla"}
       </button>

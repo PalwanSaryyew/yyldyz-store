@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import { bot } from "./bot";
 const palwan = process.env.PALWAN_ID || 0;
 // const hajy = process.env.HAJY_ID || 0;
@@ -16,13 +17,17 @@ export async function orderScript(
       const adminMessage = `${product} \n Sany: ${amount} \n Kimden: @${buyer} \n Kime: ${receiver} \n Jemi toleg: ${total} ${currency}`;
       const clientMessage = "Sargyt kabul edilyanca garasyn";
 
-      await Promise.all(
-         userIds.map(async (i) => {
-            const message =
-               i === Number(buyerId) ? clientMessage : adminMessage;
-            await bot.api.sendMessage(i, message);
-         })
-      );
+      if (currency === 'TON') {
+         resolve();
+      } else {
+         await Promise.all(
+            userIds.map(async (i) => {
+               const message =
+                  i === Number(buyerId) ? clientMessage : adminMessage;
+               await bot.api.sendMessage(i, message);
+            })
+         );
+      }
       console.log("SMS gitdi");
       return true;
    } catch (error) {

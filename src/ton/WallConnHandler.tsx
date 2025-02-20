@@ -21,7 +21,7 @@ const WallConnHandler = () => {
    return (
       <>
          {!connectionRestored ? (
-            <WalletConnHandButt isDisabled={true} title={"loading"} />
+            <WalletConnHandButt isDisabled={true} title={"loading..."} />
          ) : rawAddress ? (
             <WalletConnHandButt
                title={formatAddress()}

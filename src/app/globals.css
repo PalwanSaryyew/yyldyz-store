@@ -3,28 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+   background: linear-gradient(135deg, #60A5FA, 15% , black, #60A5FA);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-     --background: #ededed;
-     --foreground: #0a0a0a;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: white /* var(--background) */;
-  font-family: Arial, Helvetica, sans-serif;
-  background-image: url("/tg-bg-1.png");
-  background-repeat: repeat;
-  background-size: 510px;
+   background-image: url("/pattern-2d.png");
+   background-size: 300px;
+   background-repeat: repeat;
+   display: flex;
+   flex-direction: column;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+   .text-balance {
+      text-wrap: balance;
+   }
 }

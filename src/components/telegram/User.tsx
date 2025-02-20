@@ -1,5 +1,5 @@
 "use client";
-import { getUserInfo } from "@/lib/userinfo";
+import { webApp } from "@/lib/webApp";
 import { useUser } from "@/useStore/UniStore";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -15,14 +15,14 @@ const User = () => {
 
    useEffect(() => {
       const getAll = async () => {
-         const tgInfo = await getUserInfo();
-         console.log(tgInfo);
+         const { initDataUnsafe } = await webApp();
+         const { user } = initDataUnsafe;
 
-         if (tgInfo) {
+         if (user) {
             setUserState({
-               id: String(tgInfo.id) || "0",
-               photo_url: tgInfo.photo_url || "/emeki.png",
-               username: tgInfo.username || "Unknown User",
+               id: String(user.id) || "0",
+               photo_url: user.photo_url || "/emeki.png",
+               username: user.username || "Unknown User",
             });
          }
       };
@@ -34,8 +34,8 @@ const User = () => {
          <Image
             alt=""
             src={getUserState?.photo_url || "/no-user.png"}
-            width={50}
-            height={50}
+            width={40}
+            height={40}
             className="rounded-full"
          />
          <span>{getUserState ? getUserState.username : "username"}</span>

@@ -39,7 +39,7 @@ const Transactions = () => {
             messages: [
               {
                 address: receiverAddress, // Use receiver address from item!
-                amount: toNano(0.0001).toString(),
+                amount: toNano(data.price).toString(),
                 payload: body.toBoc().toString("base64"),
               },
             ],

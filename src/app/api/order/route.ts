@@ -1,7 +1,8 @@
 import { PaymentMethod } from "@prisma/client";
 import { prisma } from "../../../../prisma/prismaSett";
-import { orderScript } from "../../../../bot/scripts";
 import { cmcApi } from "@/lib/fetchs";
+import { toncoinId } from "@/lib/settings";
+import { orderScript } from "../../../../bot/bot";
 
 export async function GET(request: Request) {
    const { searchParams } = new URL(request.url);
@@ -10,8 +11,28 @@ export async function GET(request: Request) {
    const busername = searchParams.get("bsrnm");
    const rusername = searchParams.get("rsrnm");
    const currency = searchParams.get("crrnc");
-   const tonPrice = await cmcApi();
-   if (!(productId && userId && busername && rusername && currency)) {
+   const tonPrice = await cmcApi(toncoinId);
+   if (!tonPrice) {
+      console.error("CMC api error");
+      return Response.json({
+         success: false,
+         message: "CMC api error",
+      });
+   }
+
+   if (
+      productId === "undefined" ||
+      userId === "undefined" ||
+      busername === "undefined" ||
+      rusername === "undefined" ||
+      currency === "undefined"
+   ) {
+      console.error("Wrong Request");
+      return Response.json({
+         success: false,
+         message: "Wrong request",
+      });
+   } else if (!productId || !userId || !busername || !rusername || !currency) {
       console.error("Wrong Request");
       return Response.json({
          success: false,
@@ -34,7 +55,7 @@ export async function GET(request: Request) {
 
    const userData = await prisma.user
       .findUnique({
-         where: { id: userId.toString() },
+         where: { id: userId },
       })
       .then(async (resuserData) => {
          /* creating user if it is not exist */
@@ -42,7 +63,7 @@ export async function GET(request: Request) {
             return resuserData;
          } else {
             const newUserData = await prisma.user.create({
-               data: { id: userId.toString() },
+               data: { id: userId },
             });
             return newUserData;
          }
@@ -78,7 +99,6 @@ export async function GET(request: Request) {
                orderId: newOrder.id,
             },
          });
-
          return transactionData;
       };
 
@@ -86,7 +106,7 @@ export async function GET(request: Request) {
    });
 
    const botRes = await orderScript(
-      userData.id,
+      Number(userData.id),
       busername,
       transaction.orderData.payment,
       "Ýyldyz",
@@ -94,7 +114,8 @@ export async function GET(request: Request) {
       transaction.orderData.receiver,
       currency === "TMT"
          ? productData.priceTMT.toString()
-         : productData.priceUSDT.toString()
+         : productData.priceUSDT.toString(),
+      transaction.orderData.id
    );
    if (!botRes) {
       console.error("Bot message failed");
@@ -107,6 +128,7 @@ export async function GET(request: Request) {
    if (transaction.orderData.payment === "TON") {
       if (transaction.tonTransaction) {
          return Response.json({
+            orderId: transaction.orderData.id,
             success: true,
             tonComment: `${productData.amount} Stars for ${transaction.tonTransaction.price} TON\n\n${transaction.tonTransaction.id}`,
             price: transaction.tonTransaction.price,

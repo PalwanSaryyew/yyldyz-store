@@ -1,6 +1,6 @@
 "use client";
 
-import { useWhicIsOpen } from "@/useStore/UniStore";
+import { useWhicIsOpen } from "@/utils/UniStore";
 import React from "react";
 
 const ItemModalOpener = ({

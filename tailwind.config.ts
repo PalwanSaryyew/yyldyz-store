@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 
@@ -12,6 +13,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        tmtColor: '#BC686A',
+        usdtColor: '#4FAC92',
+        tonColor: '#009BED'
       },
     },
   },

@@ -1,15 +1,17 @@
-
 import { prisma } from "../../prisma/prismaSett";
-import MainboxColor from "@/components/MainboxColor";
-import CurrencyBox from "@/components/CurrencyBox";
-import StoreBox from "@/components/StoreBox";
+import ItemBox from "@/components/item/ItemBox";
+import { cmcApi } from "@/lib/fetchs";
+import { toncoinId } from "@/lib/settings";
 
 export default async function Home() {
-   const starsData = await prisma.star.findMany();
+   const data = await prisma.star.findMany();
+   const tonPrice = await cmcApi(toncoinId);
+
    return (
-      <MainboxColor>
-         <CurrencyBox />
-         <StoreBox starsData={starsData} />
-      </MainboxColor>
+      <div className="flex flex-col gap-4 py-8 w-full items-center">
+         {data.map((item) => (
+            <ItemBox item={item} key={item.id} tonPrice={tonPrice} />
+         ))}
+      </div>
    );
 }

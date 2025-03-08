@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "bot": "ts-node bot/scripts.ts",
+    "bot": "ts-node bot/commands.ts",
     "delete": "ts-node prisma/delete.mjs"
   },
   "dependencies": {
@@ -17,7 +17,6 @@
     "@twa-dev/sdk": "^8.0.2",
     "clsx": "^2.1.1",
     "grammy": "^1.35.0",
-    "jose": "^5.9.6",
     "next": "14.2.23",
     "react": "^18",
     "react-dom": "^18",

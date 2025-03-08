@@ -6,7 +6,7 @@
    background: linear-gradient(135deg, #60A5FA, 15% , black, #60A5FA);
 }
 body {
-   background-image: url("/pattern-2d.png");
+   background-image: url("/bg/pattern-3d.png");
    background-size: 300px;
    background-repeat: repeat;
    display: flex;

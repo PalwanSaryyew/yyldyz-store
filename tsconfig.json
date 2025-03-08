@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "prisma/seed.ts", "src/lib/fetchs.ts", "prisma/delete.mjs", "bot/scripts.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "prisma/seed.ts", "src/lib/fetchs.ts", "prisma/delete.mjs", "bot/scripts.ts", "bot/start.mjs"],
   "exclude": ["node_modules"]
 }

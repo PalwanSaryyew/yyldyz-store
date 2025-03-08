@@ -1,5 +1,6 @@
 import User from "../telegram/User";
-import WallConnHandler from "@/ton/WallConnHandler";
+import WallConnHandler from "../ton/WallConnHandler";
+
 
 const Footer = () => {
    return (

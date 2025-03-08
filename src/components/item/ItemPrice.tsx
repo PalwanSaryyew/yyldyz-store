@@ -1,5 +1,6 @@
 "use client";
-import { useCurrency } from "@/useStore/UniStore";
+import { cn } from "@/utils/tailwindMerge";
+import { useCurrency } from "@/utils/UniStore";
 
 interface ItemPriceProps {
    priceTMT: number;
@@ -9,6 +10,7 @@ interface ItemPriceProps {
 
 const ItemPrice = ({ priceTMT, priceUSDT, tonPrice }: ItemPriceProps) => {
    const currency = useCurrency((state) => state.currency);
+
    const priceOnCurrency =
       currency === "TMT"
          ? priceTMT
@@ -16,8 +18,22 @@ const ItemPrice = ({ priceTMT, priceUSDT, tonPrice }: ItemPriceProps) => {
          ? priceUSDT
          : Number((priceUSDT / tonPrice).toFixed(4));
    return (
-      <div className="text-lg font-semibold text-gray-600">
-         {priceOnCurrency}
+      <div className="flex items-center gap-4">
+         <div className="text-lg font-semibold text-gray-600">
+            {priceOnCurrency}
+         </div>
+         <div
+            className={cn(
+               currency === "TMT"
+                  ? `text-orange-500`
+                  : currency === "TON"
+                  ? `text-tonColor`
+                  : `text-usdtColor`,
+               ` font-bold text-lg`
+            )}
+         >
+            {currency}
+         </div>
       </div>
    );
 };

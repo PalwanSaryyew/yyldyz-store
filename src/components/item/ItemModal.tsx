@@ -1,15 +1,20 @@
 "use client";
-import { Star } from "@prisma/client";
+import { Star, Tgprem } from "@prisma/client";
 import {
    useCartItem,
    useCurrency,
    useHandleModal,
    useWhicIsOpen,
-} from "../../useStore/UniStore";
+} from "../../utils/UniStore";
 import { useState } from "react";
 import { cn } from "@/utils/tailwindMerge";
-// import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
+const ItemModal = ({
+   item,
+   tonPrice,
+}: {
+   item: Star | Tgprem;
+   tonPrice: number;
+}) => {
    const isOpen = useWhicIsOpen((state) => state.opened);
    const change = useCartItem((state) => state.add);
    const modalOpener = useHandleModal((state) => state.toogle);
@@ -23,25 +28,22 @@ const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
 
    const currentColor = cn(
       currency === "TMT"
-         ? "bg-green-600"
+         ? "bg-orange-600"
          : currency === "TON"
          ? "bg-blue-600"
-         : "bg-orange-600"
+         : "bg-green-600"
    );
-   //const rawAddress = useTonAddress(false);
-   //const [tonConnectUI /* setOptions */] = useTonConnectUI();
    const [receiver, setReceiver] = useState<string>("");
+   const boxDisplay = cn(isOpen === item.id ? "block" : "hidden");
    return (
       <div
-         className={`${
-            isOpen === item.id ? "block" : "hidden"
-         } bg-white w-[90%] rounded-b-lg p-2 items-center mx-auto`}
+         className={`${boxDisplay} bg-white w-[90%] rounded-b-lg p-2 items-center mx-auto`}
       >
          {/* input box */}
          <div
             className={`${currentColor} mx-auto p-1 rounded-lg flex items-center justify-between`}
          >
-            <div className="text-gray-100 font-semibold text-lg pr-1">@</div>
+            <div className="text-gray-100 font-semibold text-lg">@</div>
             <div className="overflow-hidden px-1 flex-1">
                <input
                   type="text"
@@ -57,28 +59,25 @@ const ItemModal = ({ item, tonPrice }: { item: Star; tonPrice: number }) => {
             <button
                disabled={receiver.length < 1}
                onClick={() => {
-                  if (/* rawAddress */ true) {
-                     change({
-                        id: item.id,
-                        product: "Ýyldyz",
-                        amount: item.amount,
-                        receiver: "@" + receiver,
-                        currency: currency,
-                        total:
-                           currency === "TON"
-                              ? parseFloat(priceOnCurrency.toFixed(4))
-                              : Number(priceOnCurrency),
-                     });
-                     modalOpener();
-                  } else {
-                     // tonConnectUI.openModal();
-                  }
+                  change({
+                     id: item.id,
+                     product: "Ýyldyz",
+                     amount: item.amount,
+                     receiver: "@" + receiver,
+                     currency: currency,
+                     total:
+                        currency === "TON"
+                           ? parseFloat(priceOnCurrency.toFixed(4))
+                           : Number(priceOnCurrency),
+                  });
+                  modalOpener();
+                  setReceiver("");
                }}
                className={`${
                   receiver.length < 1 ? "hidden" : "block"
                } bg-white text-black px-4 py-2 rounded-lg ring-1 ring-blue`}
             >
-               Buy
+               Al
             </button>
          </div>
       </div>

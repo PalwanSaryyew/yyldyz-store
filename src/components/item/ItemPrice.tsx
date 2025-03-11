@@ -25,7 +25,7 @@ const ItemPrice = ({ priceTMT, priceUSDT, tonPrice }: ItemPriceProps) => {
          <div
             className={cn(
                currency === "TMT"
-                  ? `text-orange-500`
+                  ? `text-tmtColor`
                   : currency === "TON"
                   ? `text-tonColor`
                   : `text-usdtColor`,

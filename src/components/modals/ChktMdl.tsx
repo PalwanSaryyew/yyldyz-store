@@ -11,6 +11,7 @@ const ChktMdl = () => {
    const modalCloser = useHandleModal((state) => state.toogle);
    const currency = useCurrency((state) => state.currency);
    const item = useCartItem((state) => state.item);
+   const [input, setInput] = useState("8");
    const [isLoading, setIsLoading] = useState(false);
 
    if (!openState) {
@@ -42,8 +43,14 @@ const ChktMdl = () => {
                   <div>{item?.product}</div>
                </div>
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
-                  <div>Sany:</div>
-                  <div>{item?.amount}</div>
+                  <div>
+                     {item?.product === "Tg Premium" ? "Wagty:" : "Sany:"}
+                  </div>
+                  <div>
+                     {item?.product === "Tg Premium"
+                        ? item.amount + " aý"
+                        : item?.amount}
+                  </div>
                </div>
                <div className="bg-slate-100 p-1 even:bg-gray-200 flex justify-between">
                   <div>Kime:</div>
@@ -54,11 +61,33 @@ const ChktMdl = () => {
                   <div>{item?.total}</div>
                </div>
             </div>
+            {currency === "TMT" && (
+               <div className="px-3 ">
+                  <label className="text-sm text-orange-700" htmlFor="mobile">
+                     Aşakda tölegi geçirýan tmcell belgisini giriziň!
+                  </label>
+                  <input
+                     type="text"
+                     value={input}
+                     onChange={(e) => setInput(e.target.value)}
+                     className="w-full border-none p-2 outline-none bg-white rounded-lg"
+                  />
+                  <label className="text-sm text-orange-700" htmlFor="mobile">
+                     Töleg diňe tmcell belgiden belgä amala aşyrylýar!
+                  </label>
+               </div>
+            )}
+
             <div className="w-full px-3 pt-2">
                {currency === "TON" ? (
                   <Transactions />
                ) : (
-                  <TmtUsdt moadalCloserButt={setIsLoading} currency={currency} item={item} />
+                  <TmtUsdt
+                     mobile={input}
+                     moadalCloserButt={setIsLoading}
+                     currency={currency}
+                     item={item}
+                  />
                )}
             </div>
          </div>

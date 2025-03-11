@@ -1,8 +1,9 @@
 "use client";
 
+import { tonProducts } from "@/lib/settings";
 import { cn } from "@/utils/tailwindMerge";
 import { useCurrency } from "@/utils/UniStore";
-
+import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
 interface CrrncyChngrProps {
@@ -19,7 +20,11 @@ const CrrncyChngr = ({ crrncy, children }: CrrncyChngrProps) => {
          ? " bg-[#BC686A]"
          : " bg-[#009BED]"
    );
-
+   const currentPath = usePathname();
+   if (!tonProducts.includes(currentPath) && crrncy === "TON") {
+      changeCurrency("TMT");
+      return null;
+   }
    return (
       <div
          className={`flex-1 flex items-center justify-center py-1 ${bg}`}

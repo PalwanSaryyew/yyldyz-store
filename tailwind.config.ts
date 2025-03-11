@@ -15,7 +15,8 @@ const config: Config = {
         foreground: "var(--foreground)",
         tmtColor: '#BC686A',
         usdtColor: '#4FAC92',
-        tonColor: '#009BED'
+        tonColor: '#009BED',
+        mainColor: '#60A5FA'
       },
     },
   },

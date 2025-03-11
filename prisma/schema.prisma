@@ -26,20 +26,21 @@ model Admin {
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  name      String
+  id        Int         @id @default(autoincrement())
+  name      ProductType
   amount    Int
   priceTMT  Float
   priceUSDT Float
   orders    Order[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 model Order {
   id             Int             @id @default(autoincrement())
   userId         String
   receiver       String
+  paynum         String?
   productId      Int
   mssgIds        Int[]
   courierid      String?
@@ -81,4 +82,11 @@ enum PaymentMethod {
 enum UserRole {
   client
   admin
+}
+
+enum ProductType {
+  jtn
+  star
+  tgprem
+  uc
 }

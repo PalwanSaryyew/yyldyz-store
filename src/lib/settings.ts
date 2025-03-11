@@ -10,3 +10,4 @@ export const tgprem = '/prem'
 export const tgstar = '/'
 export const tktkjtn = '/tktjtn'
 export const uc = '/uc'
+export const tonProducts=['/', '/prem']

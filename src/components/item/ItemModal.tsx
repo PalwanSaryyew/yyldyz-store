@@ -1,5 +1,5 @@
 "use client";
-import { Star, Tgprem } from "@prisma/client";
+import { Product } from "@prisma/client";
 import {
    useCartItem,
    useCurrency,
@@ -8,13 +8,7 @@ import {
 } from "../../utils/UniStore";
 import { useState } from "react";
 import { cn } from "@/utils/tailwindMerge";
-const ItemModal = ({
-   item,
-   tonPrice,
-}: {
-   item: Star | Tgprem;
-   tonPrice: number;
-}) => {
+const ItemModal = ({ item, tonPrice }: { item: Product; tonPrice: number }) => {
    const isOpen = useWhicIsOpen((state) => state.opened);
    const change = useCartItem((state) => state.add);
    const modalOpener = useHandleModal((state) => state.toogle);
@@ -28,10 +22,10 @@ const ItemModal = ({
 
    const currentColor = cn(
       currency === "TMT"
-         ? "bg-orange-600"
+         ? "bg-tmtColor"
          : currency === "TON"
-         ? "bg-blue-600"
-         : "bg-green-600"
+         ? "bg-tonColor"
+         : "bg-usdtColor"
    );
    const [receiver, setReceiver] = useState<string>("");
    const boxDisplay = cn(isOpen === item.id ? "block" : "hidden");
@@ -61,7 +55,16 @@ const ItemModal = ({
                onClick={() => {
                   change({
                      id: item.id,
-                     product: "Ýyldyz",
+                     product:
+                        item.name === "jtn"
+                           ? "Jeton"
+                           : item.name === "star"
+                           ? "Ýyldyz"
+                           : item.name === "tgprem"
+                           ? "Tg Premium"
+                           : item.name === "uc"
+                           ? "UC"
+                           : item.name,
                      amount: item.amount,
                      receiver: "@" + receiver,
                      currency: currency,

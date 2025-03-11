@@ -1,12 +1,12 @@
 
-import { Star, Tgprem } from "@prisma/client";
+import { Product } from "@prisma/client";
 import ItemModal from "./ItemModal";
 import ItemModalOpener from "./ItemModalOpener";
 import ItemPrice from "./ItemPrice";
 import ItemIcon from "./ItemIcon";
 import ItemAmount from "./ItemAmount";
 interface ItemBoxProps {
-   item: Tgprem | Star;
+   item: Product;
    tonPrice: number;
 }
 

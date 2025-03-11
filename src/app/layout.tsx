@@ -10,7 +10,8 @@ import CurrencyBox from "@/components/mains/content/CurrencyBox";
 import MainboxColor from "@/components/mains/content/MainboxColor";
 
 const geistSans = localFont({
-   src: "./fonts/GeistVF.woff",
+  /*  src: "@/app/fonts/GeistVF.woff", */
+  src: './fonts/GeistVF.woff',
    variable: "--font-geist-sans",
    weight: "100 900",
 });

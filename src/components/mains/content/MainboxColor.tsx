@@ -6,17 +6,17 @@ import { useCurrency } from "@/utils/UniStore";
 
 const MainboxColor = ({ children }: { children: React.ReactNode }) => {
    const currency = useCurrency((state) => state.currency);
-   const bg = cn(
+   const border = cn(
       currency === "TMT"
-         ? "bg-orange-600/25 border-tmtColor"
+         ? "border-tmtColor"
          : currency === "TON"
-         ? "bg-blue-600/25 border-tonColor"
-         : "bg-green-600/25 border-usdtColor"
+         ? "border-tonColor"
+         : "border-usdtColor"
    );
    return (
-      <main className={`relative w-[90%] m-auto mb-48`}>
+      <main className={`relative w-[90%] mx-auto mb-48`}>
          <div
-            className={`${bg} backdrop-blur-[1px] w-[98%] rounded-b-3xl border-[2px]`}
+            className={`${border} backdrop-blur-[1.25px] w-[98%] rounded-b-3xl border-[2px]`}
          >
             {children}
          </div>

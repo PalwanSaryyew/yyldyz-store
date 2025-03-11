@@ -11,6 +11,7 @@ export async function GET(request: Request) {
    const busername = searchParams.get("bsrnm");
    const rusername = searchParams.get("rsrnm");
    const currency = searchParams.get("crrnc");
+   const mobile = searchParams.get("mbl");
    const tonPrice = await cmcApi(toncoinId);
    if (!tonPrice) {
       console.error("CMC api error");
@@ -40,7 +41,7 @@ export async function GET(request: Request) {
       });
    }
 
-   const productData = await prisma.star.findUnique({
+   const productData = await prisma.product.findUnique({
       where: { id: Number(productId) },
    });
 
@@ -85,6 +86,7 @@ export async function GET(request: Request) {
             status: "pending",
             payment: currency as PaymentMethod,
             receiver: rusername,
+            paynum: mobile,
          },
       });
       const tontonComment = async () => {
@@ -106,10 +108,19 @@ export async function GET(request: Request) {
    });
 
    const botRes = await orderScript(
+      mobile || '',
       Number(userData.id),
       busername,
       transaction.orderData.payment,
-      "Ýyldyz",
+      productData.name === "jtn"
+         ? "Jeton"
+         : productData.name === "star"
+         ? "Ýyldyz"
+         : productData.name === "tgprem"
+         ? "Tg Premium"
+         : productData.name === "uc"
+         ? "UC"
+         : productData.name,
       productData.amount.toString(),
       transaction.orderData.receiver,
       currency === "TMT"
@@ -130,7 +141,11 @@ export async function GET(request: Request) {
          return Response.json({
             orderId: transaction.orderData.id,
             success: true,
-            tonComment: `${productData.amount} Stars for ${transaction.tonTransaction.price} TON\n\n${transaction.tonTransaction.id}`,
+            tonComment: `${productData.amount} ${
+               productData.name === "star" ? " stars" : "Month Tg Premium"
+            } for ${transaction.tonTransaction.price} TON\n\n${
+               transaction.tonTransaction.id
+            }`,
             price: transaction.tonTransaction.price,
          });
       }

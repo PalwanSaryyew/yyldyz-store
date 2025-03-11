@@ -88,7 +88,7 @@ const Transactions = () => {
             }
          }}
          className={`${
-            isLoading ? "bg-blue-600/50" : "bg-blue-600"
+            isLoading ? "bg-tonColor/50 cursor-wait" : "bg-tonColor"
          } w-full py-2 text-white rounded-lg ring-inherit ring-2 ring-blue-800 flex items-center justify-center`}
       >
          {!rawAddress

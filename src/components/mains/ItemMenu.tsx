@@ -8,7 +8,7 @@ const ItemMenu = () => {
    const currentPath = usePathname();
 
    return (
-      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col bg-black/50 backdrop-blur-sm rounded-s-lg overflow-hidden divide-y divide-white px-1">
+      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col backdrop-blur-[4px] rounded-s-lg overflow-hidden divide-y divide-mainColor px-1 border-2 border-r-0 border-mainColor">
          <Link href={"/"}>
             <div
                className={cn(

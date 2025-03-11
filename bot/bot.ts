@@ -11,6 +11,7 @@ const palwan = Number(process.env.PALWAN_ID) || 0;
 const hajy = Number(process.env.HAJY_ID) || 0;
 
 export async function orderScript(
+   mobile: string,
    buyerId: number,
    buyer: string,
    currency: string,
@@ -21,13 +22,17 @@ export async function orderScript(
    orderId: number
 ) {
    const userIds = [palwan, hajy];
-   const adminMessage = `${product} \n Sany: ${amount} \n <a href="tg://user?id=${buyerId}">Kimden:</a> @${buyer} \n Kime: <code>${receiver}</code> \n Jemi töleg: <b>${total} ${currency}</b>`;
-
-   const clientMessage2 = `<b>Sargydyňyzy admin kabul edeninden soň töleg maglumatlary size ugradylar. Haýyş garaşyň</b>⌛`;
-   const clientMessage = `${clientMessage2} \n <blockquote expandable>${adminMessage}</blockquote>`;
+   const mblMssg =
+      currency === "TMT" ?
+      `Töleg <b>${mobile}</b> TMCELL belgisinden garaşylýar` : '';
+   const ordrIdMssg = `<blockquote>Sargyt ID: ${orderId}</blockquote>`;
+   const prdctDtlMssg = `${product} \n Sany: ${amount} \n Kimden: @${buyer} \n Kime: ${receiver} \n Jemi töleg: <b>${total} ${currency} </b>`;
+   const clntMssg = `Sargydyňyzy admin kabul edeninden soň töleg maglumatlary size ugradylar. Haýyş garaşyň⌛`;
+   const adminMessage = ordrIdMssg + prdctDtlMssg + "\n \n" + mblMssg;
+   const clientMessage = `${ordrIdMssg} ${clntMssg} <blockquote expandable>${prdctDtlMssg}</blockquote>`;
    try {
-      //"Sargyt kabul edilyanca garasyn 📨";
       const adminInfos = await prisma.admin.findMany();
+      // keyboard generator func
       const getKeyboard = async (chatId: number) => {
          const adminInfo = adminInfos.find(
             (admin) => admin.tgId === chatId.toString()
@@ -52,6 +57,7 @@ export async function orderScript(
                .row();
          }
          acceptOrderKeyboard.copyText(receiver, receiver).row();
+         acceptOrderKeyboard.text(`Ýatyr`, `decline_order_${orderId}`).row();
          return acceptOrderKeyboard;
       };
       if (currency === "TON") {
@@ -65,7 +71,7 @@ export async function orderScript(
             })
             .then((data) => messageIds.push(data.message_id));
          await bot.api
-            .sendMessage(userIds[1], adminMessage, {
+            .sendMessage(userIds[1], ordrIdMssg + prdctDtlMssg, {
                reply_markup: await getKeyboard(userIds[1]),
                parse_mode: "HTML",
             })

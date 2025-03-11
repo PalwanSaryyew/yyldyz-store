@@ -7,18 +7,20 @@ const TmtUsdt = ({
    item,
    currency,
    moadalCloserButt,
+   mobile,
 }: {
    item: CartItemState["item"];
    currency: string;
    moadalCloserButt: (loading: boolean) => void;
+   mobile: string;
 }) => {
    const [loading, setLoading] = useState(false);
    const tmtClass = cn(
-      loading ? `bg-tmtColor/50` : `bg-tmtColor`,
+      loading ? `bg-tmtColor/50 cursor-wait` : `bg-tmtColor`,
       `ring-orange-700`
    );
    const usdtClass = cn(
-      loading ? `bg-usdtColor/50` : `bg-usdtColor`,
+      loading ? `bg-usdtColor/50 cursor-wait` : `bg-usdtColor`,
       `ring-green-700`
    );
    const user = useUser((state) => state.user);
@@ -32,7 +34,7 @@ const TmtUsdt = ({
       app.requestWriteAccess(async (perm) => {
          if (perm) {
             await fetch(
-               `/api/order?pid=${item?.id}&bid=${user?.id}&bsrnm=${user?.username}&rsrnm=${item?.receiver}&crrnc=${item?.currency}`
+               `/api/order?pid=${item?.id}&bid=${user?.id}&bsrnm=${user?.username}&rsrnm=${item?.receiver}&crrnc=${item?.currency}&mbl=${mobile}`
             )
                .then(async (response) => await response.json())
                .then(async (data) => {
@@ -74,7 +76,7 @@ const TmtUsdt = ({
             currency === "TMT" ? tmtClass : usdtClass
          )}
       >
-         {loading ? "Garasyn..." : "Tassykla"}
+         {loading ? "Garaşyň..." : "Tassykla"}
       </button>
    );
 };
